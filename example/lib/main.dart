@@ -58,7 +58,9 @@ class _MyAppState extends State<MyApp> {
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
         'alice', const ldk.SocketAddr(ip: "0.0.0.0", port: 3006));
-    ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
+    String mnemonic = "success pottery praise item abandon hello slogan system dice bleak drum fat"; //Testnet mnemonic
+    ldk.WalletEntropySource entropySource = ldk.WalletEntropySource.bip39Mnemonic(mnemonic: mnemonic);
+    ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig, entropySource: entropySource);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
@@ -71,7 +73,8 @@ class _MyAppState extends State<MyApp> {
   initBobNode() async {
     final bobConfig = await initLdkConfig(
         "bob", const ldk.SocketAddr(ip: "0.0.0.0", port: 8077));
-    ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
+    ldk.WalletEntropySource mnemonic = ldk.WalletEntropySource.bip39Mnemonic(mnemonic: "success pottery praise item abandon hello slogan system dice bleak drum fat");
+    ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig, entropySource: mnemonic);
     bobNode = await bobBuilder.build();
     await bobNode.start();
     final res = await bobNode.nodeId();

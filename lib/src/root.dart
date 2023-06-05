@@ -11,11 +11,11 @@ class Node extends NodeBase {
 }
 
 class Builder extends BuilderBase {
-  Builder._({required super.bridge, required super.config});
+  Builder._({required super.bridge, required super.config, required WalletEntropySource entropySource});
 
-  /// Creates a new builder instance from an [Config].
-  factory Builder.fromConfig({required Config config}) {
-    return Builder._(bridge: loaderApi, config: config);
+  /// Creates a new builder instance from an [Config] and [WalletEntropySource].
+  factory Builder.fromConfig({required Config config, required WalletEntropySource entropySource}) {
+    return Builder._(bridge: loaderApi, config: config, entropySource: entropySource);
   }
   Future<Node> build() async {
     final res = await loaderApi.buildStaticMethodBuilderBase(builder: this);
