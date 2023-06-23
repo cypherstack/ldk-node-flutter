@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
-// import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart'; //Uncomment to run app
 
 void main() {
   runApp(const MyApp());
@@ -37,10 +37,11 @@ class _MyAppState extends State<MyApp> {
   Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
-    //final directory = await getApplicationDocumentsDirectory();
+    // final directory = await getApplicationDocumentsDirectory(); //Uncomment to run app
     final nodePath = "{directory.path}/ldk_cache/$path";
-    final esploraUrl =
-        Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
+    final esploraUrl = "https://blockstream.info/testnet/api/";
+    // final esploraUrl =
+    //     Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     final config = ldk.Config(
         storageDirPath: nodePath,
         esploraServerUrl: esploraUrl,
@@ -66,7 +67,7 @@ class _MyAppState extends State<MyApp> {
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.keyHex} started successfully";
+      displayText = "${aliceNodeId?.keyHex} at app start started successfully";
     });
   }
 
@@ -78,6 +79,7 @@ class _MyAppState extends State<MyApp> {
     bobNode = await bobBuilder.build();
     await bobNode.start();
     final res = await bobNode.nodeId();
+    print("BOB's node initialized");
     setState(() {
       bobNodeId = res;
       displayText = "$bobNodeId started successfully";
